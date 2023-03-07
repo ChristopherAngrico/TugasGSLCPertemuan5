@@ -9,10 +9,16 @@ public class TriggerAttack : MonoBehaviour
     int anim_count;
     [Range(0,1)]
     public float timeSet = 0.2f;
+    public GameObject ChangeTheScene;
+    private ChangeScene GetTheChangeSceneSCript;
+    private void Awake() {
+        GetTheChangeSceneSCript = ChangeTheScene.GetComponent<ChangeScene>();
+    }
     public void Attack(){
         animator.SetBool("Attack", true);
         checkAnimation = true;
         StartCoroutine(nameof(SetAnimation));
+        Invoke(nameof(ChangeAfterFinish),2f);
     }
     IEnumerator SetAnimation(){
         if(checkAnimation){
@@ -20,5 +26,9 @@ public class TriggerAttack : MonoBehaviour
             animator.SetBool("Attack", false);
         }
         yield return null;
+    }
+
+    private void ChangeAfterFinish(){
+        GetTheChangeSceneSCript.ChangeSceneScript("EndingScene");
     }
 }
